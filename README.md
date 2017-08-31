@@ -8,6 +8,7 @@ $ python ./scrape.py -n 100 -f list.csv -p /mnt/scratch/flowers/images/
 takes a file that looks like this:
 
 $ csvlook list.csv
+
 |    編號 | 更多資料 | 學名                                          | 中文名         | 中文別名        | 英文名                         | 英文別名                   | 科                | 習性     | search_term                                |
 | ----- | ---- | ------------------------------------------- | ----------- | ----------- | --------------------------- | ---------------------- | ---------------- | ------ | ------------------------------------------ |
 |    14 | 進入   | Alangium chinense                           | 八角楓         | 水芒樹         | Chinese-Alangium            | NoInfo                 | ALANGIACEAE八角楓科  | 喬木_灌木  | Alangium chinense                          |
