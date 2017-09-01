@@ -1,0 +1,6 @@
+*.pyc
+.DS_Store
+checkpoint
+data
+log
+images
