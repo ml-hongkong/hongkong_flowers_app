@@ -1,3 +1,4 @@
+import axios from 'axios';
 import Config from 'react-native-config';
 import { apiSuccess, apiError } from '../actions';
 import { API_REQUEST, API_POST, API_UPLOAD } from '../constants';
@@ -6,13 +7,14 @@ const BASE_API_URL = Config.API_URL;
 
 const isApiAction = type => [API_REQUEST, API_POST, API_UPLOAD].includes(type);
 
-const createHttpOptions = ({ method, data, headers }) => {
+const createHttpOptions = ({ url, method, data, headers }) => {
   const defaultHeaders = {
     Accept: 'application/json',
     'Content-Type': 'application/json',
   };
 
   return {
+    url,
     method,
     data,
     headers: {
@@ -39,9 +41,9 @@ const api = async ({ url, data, type, headers }) => {
 
   // handle all api response
   try {
-    const response = await fetch(
-      `${BASE_API_URL}${url}`,
+    const response = await axios(
       createHttpOptions({
+        url: `${BASE_API_URL}${url}`,
         method,
         data,
         headers,
