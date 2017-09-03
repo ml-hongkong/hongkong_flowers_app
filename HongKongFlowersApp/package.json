@@ -19,6 +19,7 @@
     "react-native-config": "^0.6.0",
     "react-native-deprecated-custom-components": "^0.1.1",
     "react-native-dialog-component": "^0.2.16",
+    "react-native-fbsdk": "0.6.0",
     "react-native-vector-icons": "^4.3.0",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2"
