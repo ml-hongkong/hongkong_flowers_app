@@ -29,11 +29,10 @@ const api = async ({ url, data, type, headers }) => {
   let method;
   switch (type) {
     case API_POST:
-      method = 'POST';
-      break;
     case API_UPLOAD:
       method = 'POST';
       break;
+    case API_REQUEST:
     default:
       method = 'GET';
       break;
