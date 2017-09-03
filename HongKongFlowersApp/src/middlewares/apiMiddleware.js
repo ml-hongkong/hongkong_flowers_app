@@ -6,14 +6,13 @@ const BASE_API_URL = Config.API_URL;
 
 const isApiAction = type => [API_REQUEST, API_POST, API_UPLOAD].includes(type);
 
-const createHttpOptions = ({ url, method, data, headers }) => {
+const createHttpOptions = ({ method, data, headers }) => {
   const defaultHeaders = {
     Accept: 'application/json',
     'Content-Type': 'application/json',
   };
 
   return {
-    url,
     method,
     data,
     headers: {

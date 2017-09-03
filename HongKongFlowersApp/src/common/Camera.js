@@ -88,7 +88,7 @@ class CustomCamera extends PureComponent {
           source={{ uri: currentImage.path }}
         />
       );
-      takePhotoButtonTitle = previewCurrentImage ? 'SEARCH' : null;
+      takePhotoButtonTitle = 'SEARCH';
     }
 
     return (
