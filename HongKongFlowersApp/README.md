@@ -33,6 +33,6 @@ react-native run-ios
 react-native run-android
 ```
 
-## Code Style
+## Code Style Guide
 * **[Airbnb JS Style Guide](https://github.com/airbnb/javascript)**
 * **2 spaces indentation**
