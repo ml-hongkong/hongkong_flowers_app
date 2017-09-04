@@ -68,8 +68,8 @@ export default ({ dispatch }) => next => (action) => {
 
   const notify = (data) => {
     if (action.payload.success) {
-      action.payload.success.forEach((type) => {
-        dispatch({ type, data });
+      action.payload.success.forEach((callback) => {
+        dispatch(callback(data));
       });
     }
     return data;
