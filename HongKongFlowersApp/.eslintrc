@@ -21,5 +21,7 @@
     "expect": true,
     "describe": true,
     "fetch": true,
+    "FormData": true,
+    "__DEV__": true
   }
 }
