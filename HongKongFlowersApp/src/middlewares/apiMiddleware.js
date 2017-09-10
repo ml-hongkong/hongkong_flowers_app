@@ -1,9 +1,7 @@
 import axios from 'axios';
 import Config from 'react-native-config';
-import { apiSuccess, apiError } from '../actions';
+import createDispatcher from './createDispatcher';
 import { API_REQUEST, API_POST, API_UPLOAD } from '../constants';
-
-const API_URL = Config.API_URL;
 
 /*
   Example:
@@ -40,29 +38,16 @@ export const requester = apiUrl => async ({ url, method, data, headers }) => {
 /*
   A apiMiddleware support action callbacks and centralized all api success, error handling strategy
 */
-export const apiMiddlewareFactory = api => ({ dispatch }) => (next) => {
+export default ({ dispatch }) => (next) => {
   const isApiAction = type => [API_REQUEST, API_POST, API_UPLOAD].includes(type);
+  const api = requester(Config.API_URL);
 
   return (action) => {
-    const handleSuccess = (data) => {
-      dispatch(apiSuccess({ type: action.payload.next.SUCCESS, data }));
-      return data;
-    };
-
-    const notify = (data) => {
-      (action.payload.success || [])
-        .forEach(callback => dispatch(callback(data)));
-      return data;
-    };
-
-    const handleError = (error) => {
-      dispatch(apiError({ type: action.payload.next.ERROR, error }));
-      return error;
-    };
+    const dispatcher = createDispatcher(dispatch, action);
 
     // handle all api calls
     if (isApiAction(action.type)) {
-      dispatch({ type: action.payload.next.PENDING });
+      dispatcher.start();
 
       // select a http method
       let method;
@@ -79,13 +64,11 @@ export const apiMiddlewareFactory = api => ({ dispatch }) => (next) => {
 
       // api chaining
       api({ ...action.payload, method })
-        .then(handleSuccess)
-        .then(notify)
-        .catch(handleError);
+        .then(dispatcher.success)
+        .then(dispatcher.notify)
+        .catch(dispatcher.error);
     }
 
     return next(action);
   };
 };
-
-export default apiMiddlewareFactory(requester(API_URL));
