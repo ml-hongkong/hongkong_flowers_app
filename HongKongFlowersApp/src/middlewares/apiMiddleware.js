@@ -66,7 +66,10 @@ export default ({ dispatch }) => (next) => {
       api({ ...action.payload, method })
         .then(dispatcher.success)
         .then(dispatcher.notify)
-        .catch(dispatcher.error);
+        .catch(({ message, response }) => dispatcher.error({
+          status: response.status,
+          message,
+        }));
     }
 
     return next(action);
