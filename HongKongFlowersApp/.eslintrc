@@ -22,6 +22,7 @@
     "describe": true,
     "fetch": true,
     "FormData": true,
-    "__DEV__": true
+    "__DEV__": true,
+    "navigator": true
   }
 }
