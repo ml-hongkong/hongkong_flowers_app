@@ -1,7 +1,7 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import { View, StyleSheet, Button, StatusBar } from 'react-native';
+import { View, StyleSheet, StatusBar } from 'react-native';
 import { connect } from 'react-redux';
 import { get } from 'lodash';
 import * as predictAction from '../actions/prediction';
@@ -60,13 +60,6 @@ class CameraView extends PureComponent {
 
         <Camera onTookPhoto={this.onTookPhoto} />
         <Spinner show={waitingForPrediction} />
-
-        <Button
-          onPress={() => {
-            this.setState({ showSnackbar: !this.state.showSnackbar });
-          }}
-          title="Toggle Snackbar"
-        />
       </View>
     );
   }
