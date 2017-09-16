@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
   },
 });
 
+// eslint-disable-next-line
 const closeIcon = require('../common/img/x-white.png');
 
 type Props = {
@@ -30,15 +31,15 @@ type Props = {
 }
 
 class LoginModal extends PureComponent {
+  onLoggedIn = () => {
+    setTimeout(this.dismiss, 2000);
+  }
+
   props: Props;
 
   dismiss = () => {
     const { navigator } = this.props;
     navigator.pop();
-  }
-
-  onLoggedIn = () => {
-    setTimeout(this.dismiss, 1000);
   }
 
   render() {
