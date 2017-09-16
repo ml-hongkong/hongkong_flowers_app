@@ -21,7 +21,7 @@ export function fetchFlowerPrediction({
   return {
     type: API_UPLOAD,
     payload: {
-      url: '/flowers',
+      endpoint: '/flowers',
       data: formData,
       next: IMAGE_UPLOAD,
       headers: {

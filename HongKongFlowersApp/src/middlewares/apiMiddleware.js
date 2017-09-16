@@ -7,18 +7,18 @@ import { API_REQUEST, API_POST, API_UPLOAD } from '../constants';
   Example:
   const v1API = requester('http://example.com/v1');
   const v2API = requester('http://example.com/v2');
-  v1API({ url, type, data, headers });
+  v1API({ endpoint, type, data, headers });
 */
-export const requester = apiUrl => async ({ url, method, data, headers }) => {
+export const requester = apiUrl => async ({ endpoint, method, data, headers }) => {
   const defaultHeaders = {
     Accept: 'application/json',
     'Content-Type': 'application/json',
   };
 
-  const newApiUrl = apiUrl.endsWith('/') ? apiUrl.slice(0, -1) : apiUrl;
-  const newUrl = url.startsWith('/') ? url.slice(1) : url;
+  const updatedApiUrl = apiUrl.endsWith('/') ? apiUrl.slice(0, -1) : apiUrl;
+  const updatedEndpoint = endpoint.startsWith('/') ? endpoint.slice(1) : endpoint;
   const options = {
-    url: `${newApiUrl}/${newUrl}`,
+    url: `${updatedApiUrl}/${updatedEndpoint}`,
     method,
     data,
     headers: {
