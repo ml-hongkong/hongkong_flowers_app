@@ -5,7 +5,7 @@ import { View, StyleSheet, Button, StatusBar } from 'react-native';
 import { connect } from 'react-redux';
 import { get } from 'lodash';
 import * as predictAction from '../actions/prediction';
-import { Camera, Spinner, Snackbar } from '../common';
+import { Camera, Spinner, Snackbar, Geolocation } from '../common';
 
 const styles = StyleSheet.create({
   container: {
@@ -26,10 +26,12 @@ class CameraView extends PureComponent {
 
   onTookPhoto = (imageURL) => {
     const { fetchFlowerPrediction } = this.props;
+    const { latitude: lat, longitude: lng } = this.geolocation.getPosition();
+
     fetchFlowerPrediction({
       imageURL,
-      lat: null,
-      lng: null,
+      lat,
+      lng,
     });
   }
 
@@ -48,6 +50,12 @@ class CameraView extends PureComponent {
         <StatusBar
           backgroundColor="blue"
           barStyle="light-content"
+        />
+
+        <Geolocation
+          ref={(geolocation) => {
+            this.geolocation = geolocation;
+          }}
         />
 
         <Camera onTookPhoto={this.onTookPhoto} />
