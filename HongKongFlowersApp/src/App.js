@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 import { Navigator } from 'react-native-deprecated-custom-components';
 import { Provider } from 'react-redux';
 import store from './reducers';
+import LoginModal from './login/LoginModal';
 import CameraView from './views/CameraView';
 
 const styles = StyleSheet.create({
@@ -30,12 +31,18 @@ const styles = StyleSheet.create({
 
 class App extends Component {
   // eslint-disable-next-line
-  configureScene() {
+  configureScene(route) {
+    if (route.name === 'login') {
+      return Navigator.SceneConfigs.FloatFromBottom;
+    }
     return Navigator.SceneConfigs.FloatFromRight;
   }
 
   // eslint-disable-next-line
   renderScene(route, navigator) {
+    if (route.name === 'login') {
+      return <LoginModal navigator={navigator} />;
+    }
     if (route.name === 'camera') {
       return <CameraView navigator={navigator} />;
     }
