@@ -1,44 +1,33 @@
 // @flow
 
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { View, StyleSheet, Dimensions } from 'react-native';
 
-const toolbarHeight = 100;
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
     bottom: 0,
-    height: toolbarHeight,
+    height: 100,
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 20,
-  },
-  overlay: {
-    position: 'absolute',
-    bottom: 0,
-    opacity: 0.5,
-    height: toolbarHeight,
-    backgroundColor: '#000',
+    justifyContent: 'center',
+    width: Dimensions.get('window').width,
   },
 });
 
 type Props = {
   children: any;
+  style?: any;
 }
 
-export default class CameraToolBar extends PureComponent {
-  props: Props
-
-  render() {
-    const width = Dimensions.get('window').width;
-    const { children } = this.props;
-
-    return (
-      <View style={[styles.container, { width }]}>
-        <View style={[styles.overlay, { width }]} />
-        {children}
-      </View>
-    );
-  }
+export default function CameraToolBar({ children, style }: Props) {
+  return (
+    <View style={[styles.container, style]}>
+      {children}
+    </View>
+  );
 }
+
+CameraToolBar.defaultProps = {
+  style: null,
+};

@@ -3,24 +3,24 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
-const buttonSize = 60;
-const circleSize = buttonSize - 10;
+const buttonSize = 70;
+const circleSize = buttonSize - 15;
 
 const styles = StyleSheet.create({
   container: {
     width: buttonSize,
     height: buttonSize,
     borderRadius: buttonSize / 2,
-    backgroundColor: '#fff',
+    borderColor: '#fff',
+    borderWidth: 1,
+    backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
   },
   circle: {
     width: circleSize,
     height: circleSize,
-    borderWidth: 2,
     borderRadius: circleSize / 2,
-    borderColor: '#000',
     backgroundColor: '#fff',
   },
 });
@@ -28,23 +28,16 @@ const styles = StyleSheet.create({
 type Props = {
   onPress: () => void;
   style?: any;
-  title?: any;
 }
 
-export default function TakePhotoButton({ onPress, style, title }: Props) {
-  const content = title ? (
-    <Text>{title}</Text>
-  ) : (
-    <View style={styles.circle} />
-  );
-
+export default function TakePhotoButton({ onPress, style }: Props) {
   return (
     <TouchableOpacity
       style={[styles.container, style]}
       activeOpacity={0.4}
       onPress={onPress}
     >
-      {content}
+      <View style={styles.circle} />
     </TouchableOpacity>
   );
 }

@@ -5,6 +5,9 @@ const asyncActionType = type => ({
   ERROR: `${type}_ERROR`,
 });
 
+// Dynamic API Status
+export const API_STATUS = asyncActionType('API_STATUS');
+
 // API actions
 export const API_REQUEST = 'API_REQUEST';
 export const API_POST = 'API_POST';

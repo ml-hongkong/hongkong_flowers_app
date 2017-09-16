@@ -2,6 +2,7 @@ import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
 // eslint-disable-next-line
 import { createLogger } from 'redux-logger';
 import auth from './auth';
+import prediction from './prediction';
 import { apiMiddleware, firebaseMiddleware } from '../middlewares';
 
 const middlewares = [
@@ -20,6 +21,7 @@ if (__DEV__ === true) {
 export default createStore(
   combineReducers({
     auth,
+    prediction,
   }),
   compose(applyMiddleware(...middlewares)),
 );
