@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, StyleSheet } from 'react-native';
 
 const buttonSize = 70;
 const circleSize = buttonSize - 15;

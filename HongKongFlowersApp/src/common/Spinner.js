@@ -32,40 +32,50 @@ type Props = {
 
 export default class Spinner extends PureComponent {
   static defaultProps = {
-    show: true,
+    show: false,
   }
 
   constructor(props: Props) {
     super(props);
 
-    const initValue = props.show ? 1 : 0;
     this.state = {
-      show: props.show,
-      opacity: new Animated.Value(initValue),
+      opacity: new Animated.Value(0),
     };
+  }
+
+  componentWillMount() {
+    if (this.props.show) {
+      this.show();
+    }
   }
 
   componentWillReceiveProps(nextProps: Props) {
     if (this.props.show !== nextProps.show) {
-      let toValue = 0;
-      let duration = DISMISS_ANIMATION_DURACTION;
       if (nextProps.show) {
-        toValue = 1;
-        duration = SHOW_ANIMATION_DURACTION;
+        this.show();
+        return;
       }
-
-      Animated.timing(this.state.opacity, {
-        toValue,
-        duration,
-        useNativeDriver: true,
-      })
-        .start(() => {
-          this.setState({ show: nextProps.show });
-        });
+      this.dismiss();
     }
   }
 
   props: Props;
+
+  show = () => {
+    Animated.timing(this.state.opacity, {
+      toValue: 1,
+      duration: SHOW_ANIMATION_DURACTION,
+      useNativeDriver: true,
+    }).start();
+  }
+
+  dismiss = () => {
+    Animated.timing(this.state.opacity, {
+      toValue: 0,
+      duration: DISMISS_ANIMATION_DURACTION,
+      useNativeDriver: true,
+    }).start();
+  }
 
   render() {
     return (
