@@ -1,4 +1,4 @@
 import { AppRegistry } from 'react-native';
-import App from './src/App';
+import setup from './src/setup';
 
-AppRegistry.registerComponent('HongKongFlowersApp', () => App);
+AppRegistry.registerComponent('HongKongFlowersApp', setup);

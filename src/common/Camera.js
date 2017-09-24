@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  onTookPhoto?: () => void;
+  onTookPhoto?: (imageURL: string) => void;
 }
 
 class CustomCamera extends PureComponent {

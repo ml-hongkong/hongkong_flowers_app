@@ -14,9 +14,13 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  fetchFlowerPrediction: () => void;
+  fetchFlowerPrediction: ({
+    imageURL: string;
+    lat: number;
+    lng: number;
+  }) => void;
   waitingForPrediction: bool;
-  prediction: Object,
+  prediction: Object;
 }
 
 class CameraView extends PureComponent {
@@ -27,7 +31,6 @@ class CameraView extends PureComponent {
   onTookPhoto = (imageURL) => {
     const { fetchFlowerPrediction } = this.props;
     const { latitude: lat, longitude: lng } = this.geolocation.getPosition();
-
     fetchFlowerPrediction({
       imageURL,
       lat,

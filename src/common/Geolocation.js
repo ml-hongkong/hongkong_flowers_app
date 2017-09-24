@@ -3,8 +3,8 @@
 import { PureComponent } from 'react';
 
 type Props = {
-  onPositionUpdated?: () => void,
-  onError?: () => void,
+  onPositionUpdated?: (position: Object) => void,
+  onError?: (error: Object) => void,
 }
 
 export default class Geolocation extends PureComponent {

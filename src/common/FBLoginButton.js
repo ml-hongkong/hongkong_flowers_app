@@ -27,7 +27,7 @@ class FBLoginButton extends PureComponent {
 
   props: {
     onLoggedIn?: () => void;
-    loginWithFacebook: () => void;
+    loginWithFacebook: (accessToken: string) => void;
   }
 
   handleLogin = async () => {
