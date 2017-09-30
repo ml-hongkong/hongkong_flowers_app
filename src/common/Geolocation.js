@@ -3,22 +3,25 @@
 import { PureComponent } from 'react';
 
 type Props = {
-  onPositionUpdated?: (position: Object) => void,
-  onError?: (error: Object) => void,
+  onPositionUpdated?: (position: Object) => void;
+  onError?: (error: Object) => void;
+  enableHighAccuracy?: boolean;
+  timeout?: number;
+  maximumAge?: number;
+  distanceFilter?: number;
+  useSignificantChanges?: boolean;
 }
 
 export default class Geolocation extends PureComponent {
   static defaultProps = {
     onPositionUpdated: () => {},
     onError: () => {},
-  }
-
-  static options = {
     enableHighAccuracy: true,
     timeout: 20000,
     maximumAge: 1000,
     distanceFilter: 10,
-  };
+    useSignificantChanges: false,
+  }
 
   state = {
     latitude: null,
@@ -27,10 +30,18 @@ export default class Geolocation extends PureComponent {
   };
 
   componentDidMount() {
+    const options = {
+      enableHighAccuracy: this.props.enableHighAccuracy,
+      timeout: this.props.timeout,
+      maximumAge: this.props.maximumAge,
+      distanceFilter: this.props.distanceFilter,
+      useSignificantChanges: this.props.useSignificantChanges,
+    };
+
     this.watchId = navigator.geolocation.watchPosition(
       this.handlePositionUpdate,
       this.handleError,
-      Geolocation.options,
+      options,
     );
   }
 
