@@ -22,7 +22,6 @@ class AppNavigator extends PureComponent {
     return Navigator.SceneConfigs.FloatFromRight;
   }
 
-
   static renderScene(route, navigator) {
     if (route.name === 'login') {
       return <LoginModal navigator={navigator} />;
@@ -37,8 +36,7 @@ class AppNavigator extends PureComponent {
     return (
       <Navigator
         initialRoute={{
-          name: '',
-          title: '',
+          name: 'camera',
         }}
         renderScene={AppNavigator.renderScene}
         configureScene={AppNavigator.configureScene}

@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import AppNavigator from './AppNavigator';
+import LoginView from './views/LoginView';
 
 const styles = StyleSheet.create({
   container: {
@@ -9,9 +10,20 @@ const styles = StyleSheet.create({
   },
 });
 
-// eslint-disable-next-line
+type Props = {
+  loggedIn: boolean;
+}
+
 class App extends PureComponent {
+  props: Props
+
   render() {
+    const { loggedIn } = this.props;
+
+    if (!loggedIn) {
+      return <LoginView />;
+    }
+
     return (
       <View style={styles.container}>
         <AppNavigator />
@@ -20,5 +32,8 @@ class App extends PureComponent {
   }
 }
 
+const mapStateToProps = state => ({
+  loggedIn: state.auth.loggedIn,
+});
 
-export default connect()(App);
+export default connect(mapStateToProps)(App);
