@@ -1,7 +1,7 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import { View, StyleSheet, StatusBar } from 'react-native';
+import { View, Text, StyleSheet, StatusBar } from 'react-native';
 import { connect } from 'react-redux';
 import { get } from 'lodash';
 import * as predictAction from '../actions/prediction';
@@ -11,6 +11,20 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  predictionInfo: {
+    position: 'absolute',
+    width: '100%',
+    top: '20%',
+    alignItems: 'center',
+  },
+  name: {
+    fontSize: 46,
+    color: '#fff',
+  },
+  probability: {
+    color: '#fff',
+    fontSize: 18,
+  },
 });
 
 type Props = {
@@ -19,11 +33,19 @@ type Props = {
     lat: number;
     lng: number;
   }) => void;
-  waitingForPrediction: bool;
-  prediction: Object;
+  waitingForPrediction: boolean;
+  name?: string;
+  probability?: number;
+  errorMessage?: string;
 }
 
-class CameraView extends PureComponent {
+class FlowerPredictionView extends PureComponent {
+  static defaultProps = {
+    name: null,
+    probability: null,
+    errorMessage: null,
+  }
+
   state = {
     showSnackbar: false,
   }
@@ -41,13 +63,18 @@ class CameraView extends PureComponent {
   props: Props;
 
   render() {
-    const { waitingForPrediction, prediction } = this.props;
+    const {
+      waitingForPrediction,
+      name,
+      probability,
+      errorMessage,
+    } = this.props;
 
     return (
       <View style={styles.container}>
         <Snackbar
-          show={!!get(prediction, 'error', null)}
-          message={get(prediction, 'error.message', null)}
+          show={!!errorMessage}
+          message={errorMessage}
         />
 
         <StatusBar
@@ -62,6 +89,17 @@ class CameraView extends PureComponent {
         />
 
         <Camera onTookPhoto={this.onTookPhoto} />
+
+        <View style={styles.predictionInfo}>
+          <Text style={styles.name}>
+            {name}
+          </Text>
+
+          <Text style={styles.probability}>
+            {probability}
+          </Text>
+        </View>
+
         <Spinner show={waitingForPrediction} />
       </View>
     );
@@ -70,7 +108,9 @@ class CameraView extends PureComponent {
 
 const mapStateToProps = state => ({
   waitingForPrediction: state.prediction.pending,
-  prediction: state.prediction,
+  name: state.prediction.name,
+  probability: state.prediction.probability,
+  errorMessage: get(state.prediction, 'error.message'),
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -79,4 +119,4 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(CameraView);
+export default connect(mapStateToProps, mapDispatchToProps)(FlowerPredictionView);
