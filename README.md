@@ -9,6 +9,8 @@
 * Redux
 * Firebase
 
+<img src="https://raw.githubusercontent.com/ml-hongkong/flower.ai/master/.github/preview.jpg" width="200">
+
 ## Development
 ### INSTALL
 ### Install node modules
