@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
 import { Navigator } from 'react-native-deprecated-custom-components';
 import LoginModal from './login/LoginModal';
-import CameraView from './views/CameraView';
+import FlowerPredictionView from './views/FlowerPredictionView';
 
 const styles = StyleSheet.create({
   navigator: {
@@ -16,7 +16,7 @@ class AppNavigator extends PureComponent {
     if (route.name === 'login') {
       return Navigator.SceneConfigs.FloatFromBottom;
     }
-    if (route.name === 'camera') {
+    if (route.name === 'flowerPrediction') {
       return Navigator.SceneConfigs.HorizontalSwipeJump;
     }
     return Navigator.SceneConfigs.FloatFromRight;
@@ -26,17 +26,17 @@ class AppNavigator extends PureComponent {
     if (route.name === 'login') {
       return <LoginModal navigator={navigator} />;
     }
-    if (route.name === 'camera') {
-      return <CameraView navigator={navigator} />;
+    if (route.name === 'flowerPrediction') {
+      return <FlowerPredictionView navigator={navigator} />;
     }
-    return <CameraView navigator={navigator} />;
+    return <FlowerPredictionView navigator={navigator} />;
   }
 
   render() {
     return (
       <Navigator
         initialRoute={{
-          name: 'camera',
+          name: 'flowerPrediction',
         }}
         renderScene={AppNavigator.renderScene}
         configureScene={AppNavigator.configureScene}
