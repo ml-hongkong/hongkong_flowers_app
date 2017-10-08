@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 12,
-    marginTop: -200,
+    marginTop: -150,
   },
   logoTitle: {
     fontSize: 28,

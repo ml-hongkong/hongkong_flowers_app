@@ -1548,6 +1548,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.dlhk.flowers;
 				PRODUCT_NAME = FlowerAI;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1577,6 +1578,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.dlhk.flowers;
 				PRODUCT_NAME = FlowerAI;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
