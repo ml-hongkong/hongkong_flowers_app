@@ -20,10 +20,12 @@ yarn
 ```
 
 ### If you are running this project for the first time
-Please run `react-native link` to link native modules:
+1. Please run `react-native link` to link native modules:
 ```
 react-native link
 ```
+
+2. [Download Facebook SDK to ~/Document/FacebookSDK](https://developers.facebook.com/docs/ios/getting-started/)
 
 ### RUN iOS
 ```
