@@ -25,16 +25,16 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>fb491599314539768</string>
+				<string>fb892299604256236</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>FacebookAppID</key>
-	<string>491599314539768</string>
+	<string>892299604256236</string>
 	<key>FacebookDisplayName</key>
-	<string>FlowerAI</string>
+	<string>Hong Kong Flowers</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>
@@ -75,6 +75,7 @@
 		<string>Octicons.ttf</string>
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
+		<string>Feather.ttf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
