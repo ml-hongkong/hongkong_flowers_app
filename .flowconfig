@@ -2,6 +2,12 @@
 ; We fork some components by platform
 .*/*[.]android.js
 
+./ios/.*
+./android/.*
+./design
+./assets
+\.git
+
 ; Ignore "BUCK" generated dirs
 <PROJECT_ROOT>/\.buckd/
 

@@ -23,7 +23,6 @@
     "react-native-fbsdk": "0.6.0",
     "react-native-modal-component": "^0.1.4",
     "react-native-spinkit": "^1.1.1",
-    "react-native-vector-icons": "^4.3.0",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
     "redux-actions": "^2.2.1"
