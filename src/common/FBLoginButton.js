@@ -75,7 +75,7 @@ class FBLoginButton extends PureComponent {
         states={this.state.buttonStates}
         textStyle={styles.text}
         buttonStyle={styles.button}
-        image={require('../../assets/facebook_icon.png')}
+        image={require('./img/facebook_icon.png')}
         backgroundColors={['#1689CE', '#1B9CE2']}
       />
     );

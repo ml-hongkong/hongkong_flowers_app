@@ -1,19 +1,21 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import { View, StyleSheet, Dimensions } from 'react-native';
+import { ImageBackground, StyleSheet, Dimensions } from 'react-native';
 import Camera from 'react-native-camera';
 import CameraToolBar from './CameraToolBar';
 import TakePhotoButton from './TakePhotoButton';
 
-const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
+const { width: screenWidth } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: screenWidth,
-    height: screenHeight,
-    backgroundColor: 'black',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: undefined,
+    height: undefined,
+    backgroundColor: 'transparent',
   },
   preview: {
     flex: 1,
@@ -53,7 +55,10 @@ class CustomCamera extends PureComponent {
 
   render() {
     return (
-      <View style={styles.container}>
+      <ImageBackground
+        style={styles.container}
+        source={require('./img/camera_bg.png')}
+      >
         <Camera
           ref={(camera) => {
             this.camera = camera;
@@ -70,7 +75,7 @@ class CustomCamera extends PureComponent {
             style={styles.takePhotoButton}
           />
         </CameraToolBar>
-      </View>
+      </ImageBackground>
     );
   }
 }

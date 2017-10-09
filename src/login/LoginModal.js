@@ -58,7 +58,7 @@ class LoginModal extends PureComponent {
         <View style={styles.contentContainer}>
           <View style={styles.content}>
             <Text style={styles.title}>
-              you're not logged in{'\n'}
+              請重新登入{'\n'}
             </Text>
 
             <FBLoginButton onLoggedIn={this.onLoggedIn} />

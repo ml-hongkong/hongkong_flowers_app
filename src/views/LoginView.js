@@ -29,8 +29,8 @@ const styles = StyleSheet.create({
     color: '#777',
   },
   buttonContainer: {
-    paddingLeft: 12,
-    paddingRight: 12,
+    paddingLeft: 20,
+    paddingRight: 20,
     width: '100%',
     position: 'absolute',
     bottom: 40,
@@ -48,11 +48,11 @@ class LoginView extends PureComponent {
     return (
       <ImageBackground
         style={styles.container}
-        source={require('../../assets/auth_bg.jpg')}
+        source={require('../common/img/auth_bg.jpg')}
       >
         <View style={styles.logo}>
           <Image
-            source={require('../../assets/auth_logo.png')}
+            source={require('../common/img/auth_logo.png')}
             style={styles.image}
           />
           <Text style={styles.logoTitle}>香港野花</Text>

@@ -1,7 +1,7 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import { View, Text, StyleSheet, StatusBar } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { get } from 'lodash';
 import * as predictAction from '../actions/prediction';
@@ -75,11 +75,6 @@ class FlowerPredictionView extends PureComponent {
         <Snackbar
           show={!!errorMessage}
           message={errorMessage}
-        />
-
-        <StatusBar
-          backgroundColor="blue"
-          barStyle="light-content"
         />
 
         <Geolocation
