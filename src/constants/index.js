@@ -8,6 +8,9 @@ const asyncActionType = type => ({
 // Dynamic API Status
 export const API_STATUS = asyncActionType('API_STATUS');
 
+export const API_START = 'API_START';
+export const API_DONE = 'API_DONE';
+
 // API actions
 export const API_REQUEST = 'API_REQUEST';
 export const API_POST = 'API_POST';
