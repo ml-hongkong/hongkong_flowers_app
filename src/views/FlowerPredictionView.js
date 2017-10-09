@@ -3,7 +3,6 @@
 import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
-import { get } from 'lodash';
 import * as predictAction from '../actions/prediction';
 import { Camera, Spinner, Geolocation } from '../common';
 
