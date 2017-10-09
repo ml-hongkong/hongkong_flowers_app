@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, StatusBar } from 'react-native';
 import { connect } from 'react-redux';
 import AppNavigator from './AppNavigator';
 import LoginView from './views/LoginView';
@@ -26,6 +26,10 @@ class App extends PureComponent {
 
     return (
       <View style={styles.container}>
+        <StatusBar
+          backgroundColor="black"
+          barStyle="dark-content"
+        />
         <AppNavigator />
       </View>
     );
