@@ -6,7 +6,7 @@ export function apiStart() {
   };
 }
 
-export function apiDone(error = null) {
+export function apiDone(error) {
   return {
     type: API_DONE,
     payload: error,
