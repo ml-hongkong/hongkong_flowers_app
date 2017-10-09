@@ -1,7 +1,7 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, ImageBackground, Image, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { FBLoginButton } from '../common';
 
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
 class LoginView extends PureComponent {
   render() {
     return (
-      <Image
+      <ImageBackground
         style={styles.container}
         source={require('../../assets/auth_bg.jpg')}
       >
@@ -61,7 +61,7 @@ class LoginView extends PureComponent {
           <FBLoginButton onLoggedIn={this.onLoggedIn} />
           <Text style={styles.terms}>按登入後即表示你同意並接受本條款及細則</Text>
         </View>
-      </Image>
+      </ImageBackground>
     );
   }
 }

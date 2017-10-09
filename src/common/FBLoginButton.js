@@ -52,6 +52,7 @@ class FBLoginButton extends PureComponent {
       }
 
       const accessToken = await AccessToken.getCurrentAccessToken();
+
       if (!accessToken) {
         throw Error('Error: No access token');
       }
