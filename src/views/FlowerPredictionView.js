@@ -3,9 +3,8 @@
 import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
-import { get } from 'lodash';
 import * as predictAction from '../actions/prediction';
-import { Camera, Spinner, Snackbar, Geolocation } from '../common';
+import { Camera, Spinner, Geolocation } from '../common';
 
 const styles = StyleSheet.create({
   container: {
@@ -36,7 +35,6 @@ type Props = {
   waitingForPrediction: boolean;
   name?: string;
   probability?: number;
-  errorMessage?: string;
 }
 
 class FlowerPredictionView extends PureComponent {
@@ -67,16 +65,10 @@ class FlowerPredictionView extends PureComponent {
       waitingForPrediction,
       name,
       probability,
-      errorMessage,
     } = this.props;
 
     return (
       <View style={styles.container}>
-        <Snackbar
-          show={!!errorMessage}
-          message={errorMessage}
-        />
-
         <Geolocation
           ref={(geolocation) => {
             this.geolocation = geolocation;
@@ -105,7 +97,6 @@ const mapStateToProps = state => ({
   waitingForPrediction: state.prediction.pending,
   name: state.prediction.name,
   probability: state.prediction.probability,
-  errorMessage: get(state.prediction, 'error.message'),
 });
 
 const mapDispatchToProps = dispatch => ({
