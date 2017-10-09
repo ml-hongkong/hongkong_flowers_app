@@ -9,6 +9,7 @@ const initialState = {
 export default handleActions({
   [API_START]: state => ({
     requests: state.requests + 1,
+    error: null,
   }),
   [API_DONE]: (state, action) => ({
     requests: state.requests - 1,
