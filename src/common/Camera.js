@@ -46,8 +46,8 @@ class CustomCamera extends PureComponent {
     const { onTookPhoto } = this.props;
     const options = {};
     try {
-      const image = await this.camera.capture({ metadata: options });
-      onTookPhoto(image.path);
+      const { path } = await this.camera.capture({ metadata: options });
+      onTookPhoto(path);
     } catch (error) {
       throw error;
     }

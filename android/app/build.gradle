@@ -133,10 +133,11 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-fetch-blob')
+    compile project(':react-native-image-resizer')
     compile project(':react-native-orientation')
     compile project(':react-native-fbsdk')
     compile project(':react-native-config')
-    compile project(':react-native-vector-icons')
     compile project(':react-native-camera')
     compile project(':react-native-linear-gradient')
     compile project(':react-native-spinkit')

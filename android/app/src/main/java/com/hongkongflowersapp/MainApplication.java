@@ -3,10 +3,11 @@ package com.hongkongflowersapp;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.RNFetchBlob.RNFetchBlobPackage;
+import fr.bamlab.rnimageresizer.ImageResizerPackage;
 import com.github.yamill.orientation.OrientationPackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
-import com.oblador.vectoricons.VectorIconsPackage;
 import com.lwansbrough.RCTCamera.RCTCameraPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.react.rnspinkit.RNSpinkitPackage;
@@ -30,10 +31,11 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNFetchBlobPackage(),
+            new ImageResizerPackage(),
             new OrientationPackage(),
             new FBSDKPackage(),
             new ReactNativeConfigPackage(),
-            new VectorIconsPackage(),
             new RCTCameraPackage(),
             new LinearGradientPackage(),
             new RNSpinkitPackage()
