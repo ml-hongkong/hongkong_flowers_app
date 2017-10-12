@@ -1,7 +1,9 @@
 import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { Navigator } from 'react-native-deprecated-custom-components';
 import LoginModal from './login/LoginModal';
+import { logout } from './actions/auth';
 import FlowerPredictionView from './views/FlowerPredictionView';
 
 const styles = StyleSheet.create({
@@ -21,6 +23,9 @@ const styles = StyleSheet.create({
   navigationButton: {
     padding: 10,
   },
+  navigationButtonText: {
+    color: 'white',
+  },
   navigationLeftButton: {
     paddingLeft: 20,
     paddingRight: 40,
@@ -28,11 +33,20 @@ const styles = StyleSheet.create({
 });
 
 const routes = [
-  { name: 'login', title: '登入', index: 0 },
-  { name: 'flowerPrediction', title: '花種辨認', index: 1 },
+  { name: 'flowerPrediction', title: '花種辨認', index: 0, hideNav: false },
+  // In case the auth session expired or unauthenticated api request
+  { name: 'login', title: '登入', index: 1, hideNav: true },
 ];
 
+type Props = {
+  logout?: () => void;
+}
+
 class AppNavigator extends PureComponent {
+  static defaultProps = {
+    logout: () => {},
+  }
+
   static configureScene(route) {
     if (route.name === 'login') {
       return Navigator.SceneConfigs.FloatFromBottom;
@@ -53,19 +67,20 @@ class AppNavigator extends PureComponent {
     return <FlowerPredictionView navigator={navigator} />;
   }
 
-  static rednerNavigationBar() {
+  static rednerNavigationBar({ handleLogout }) {
     return (
       <Navigator.NavigationBar
         style={styles.navigationBar}
         routeMapper={{
-          LeftButton: (route, navigator, index) => {
-            if (index === 0) return null;
+          LeftButton: (route) => {
+            if (route.hideNav) return null;
+
             return (
               <TouchableOpacity
                 style={[styles.navigationButton, styles.navigationLeftButton]}
-                onPress={() => navigator.pop()}
+                onPress={() => handleLogout()}
               >
-                <Text style={{ color: 'white' }}>返回</Text>
+                <Text style={styles.navigationButtonText}>登出</Text>
               </TouchableOpacity>
             );
           },
@@ -80,12 +95,14 @@ class AppNavigator extends PureComponent {
     );
   }
 
+  props: Props
+
   render() {
     return (
       <Navigator
-        initialRoute={routes[1]}
+        initialRoute={routes[0]}
         initialRouteStack={routes}
-        navigationBar={AppNavigator.rednerNavigationBar()}
+        navigationBar={AppNavigator.rednerNavigationBar({ handleLogout: this.props.logout })}
         renderScene={AppNavigator.renderScene}
         configureScene={AppNavigator.configureScene}
         style={styles.navigator}
@@ -94,4 +111,11 @@ class AppNavigator extends PureComponent {
   }
 }
 
-export default AppNavigator;
+const mapStateToProps = state => ({ state });
+
+const mapDispatchToProps = dispatch => ({
+  logout: () =>
+    dispatch(logout()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(AppNavigator);

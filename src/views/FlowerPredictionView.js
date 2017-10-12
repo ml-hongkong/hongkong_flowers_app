@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     fontSize: 46,
     color: '#fff',
   },
-  probability: {
+  predictions: {
     color: '#fff',
     fontSize: 18,
   },
@@ -33,14 +33,12 @@ type Props = {
     lng: number;
   }) => void;
   waitingForPrediction: boolean;
-  name?: string;
-  probability?: number;
+  predictions?: [];
 }
 
 class FlowerPredictionView extends PureComponent {
   static defaultProps = {
-    name: null,
-    probability: null,
+    predictions: [],
     errorMessage: null,
   }
 
@@ -63,9 +61,18 @@ class FlowerPredictionView extends PureComponent {
   render() {
     const {
       waitingForPrediction,
-      name,
-      probability,
+      predictions,
     } = this.props;
+    const predictionView = (predictions.length) ? (
+      <View style={styles.predictionInfo}>
+        <Text style={styles.name}>
+          {predictions[0].chineseName}
+        </Text>
+        <Text style={styles.predictions}>
+          {(predictions[0].prob * 100).toFixed(2)}
+        </Text>
+      </View>
+    ) : null;
 
     return (
       <View style={styles.container}>
@@ -77,15 +84,7 @@ class FlowerPredictionView extends PureComponent {
 
         <Camera onTookPhoto={this.onTookPhoto} />
 
-        <View style={styles.predictionInfo}>
-          <Text style={styles.name}>
-            {name}
-          </Text>
-
-          <Text style={styles.probability}>
-            {probability}
-          </Text>
-        </View>
+        { predictionView }
 
         <Spinner show={waitingForPrediction} />
       </View>
@@ -95,8 +94,7 @@ class FlowerPredictionView extends PureComponent {
 
 const mapStateToProps = state => ({
   waitingForPrediction: state.prediction.pending,
-  name: state.prediction.name,
-  probability: state.prediction.probability,
+  predictions: state.prediction.predictions,
 });
 
 const mapDispatchToProps = dispatch => ({

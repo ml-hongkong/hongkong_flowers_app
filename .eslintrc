@@ -16,12 +16,14 @@
   },
   "globals": {
     "require": false,
+    "window": true,
     "it": true,
     "expect": true,
     "describe": true,
     "fetch": true,
     "FormData": true,
     "__DEV__": true,
-    "navigator": true
+    "navigator": true,
+    "Blob": true
   }
 }
