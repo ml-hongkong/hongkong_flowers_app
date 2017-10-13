@@ -4,7 +4,8 @@ import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { Navigator } from 'react-native-deprecated-custom-components';
 import LoginModal from './login/LoginModal';
 import { logout } from './actions/auth';
-import FlowerPredictionView from './views/FlowerPredictionView';
+import CameraView from './views/CameraView';
+import PreviewView from './views/PreviewView';
 
 const styles = StyleSheet.create({
   navigator: {
@@ -32,10 +33,11 @@ const styles = StyleSheet.create({
   },
 });
 
-const routes = [
-  { name: 'flowerPrediction', title: '花種辨認', index: 0, hideNav: false },
+export const routes = [
+  { name: 'camera', title: '香港野花', index: 0, hideNav: false },
+  { name: 'preview', title: '香港野花', index: 1, hideNav: false },
   // In case the auth session expired or unauthenticated api request
-  { name: 'login', title: '登入', index: 1, hideNav: true },
+  // { name: 'login', title: '登入', index: 1, hideNav: true },
 ];
 
 type Props = {
@@ -51,8 +53,11 @@ class AppNavigator extends PureComponent {
     if (route.name === 'login') {
       return Navigator.SceneConfigs.FloatFromBottom;
     }
-    if (route.name === 'flowerPrediction') {
-      return Navigator.SceneConfigs.HorizontalSwipeJump;
+    if (route.name === 'camera') {
+      return Navigator.SceneConfigs.HorizontalSwipeJumpFromRight;
+    }
+    if (route.name === 'preview') {
+      return Navigator.SceneConfigs.FloatFromBottom;
     }
     return Navigator.SceneConfigs.FloatFromRight;
   }
@@ -61,10 +66,13 @@ class AppNavigator extends PureComponent {
     if (route.name === 'login') {
       return <LoginModal navigator={navigator} />;
     }
-    if (route.name === 'flowerPrediction') {
-      return <FlowerPredictionView navigator={navigator} />;
+    if (route.name === 'camera') {
+      return <CameraView navigator={navigator} />;
     }
-    return <FlowerPredictionView navigator={navigator} />;
+    if (route.name === 'preview') {
+      return <PreviewView navigator={navigator} />;
+    }
+    return <CameraView navigator={navigator} />;
   }
 
   static rednerNavigationBar({ handleLogout }) {
@@ -72,15 +80,26 @@ class AppNavigator extends PureComponent {
       <Navigator.NavigationBar
         style={styles.navigationBar}
         routeMapper={{
-          LeftButton: (route) => {
+          LeftButton: (route, navigator, index) => {
             if (route.hideNav) return null;
+
+            if (index === 0) {
+              return (
+                <TouchableOpacity
+                  style={[styles.navigationButton, styles.navigationLeftButton]}
+                  onPress={() => handleLogout()}
+                >
+                  <Text style={styles.navigationButtonText}>登出</Text>
+                </TouchableOpacity>
+              );
+            }
 
             return (
               <TouchableOpacity
                 style={[styles.navigationButton, styles.navigationLeftButton]}
-                onPress={() => handleLogout()}
+                onPress={() => navigator.pop()}
               >
-                <Text style={styles.navigationButtonText}>登出</Text>
+                <Text style={styles.navigationButtonText}>返回</Text>
               </TouchableOpacity>
             );
           },

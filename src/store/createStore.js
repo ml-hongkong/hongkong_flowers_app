@@ -1,6 +1,7 @@
 import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
 // eslint-disable-next-line
 import { createLogger } from 'redux-logger';
+import { autoRehydrate } from 'redux-persist';
 import { apiMiddleware, firebaseMiddleware } from '../middlewares';
 import reducers from '../reducers';
 
@@ -20,7 +21,10 @@ if (__DEV__ === true) {
 export default () => {
   const store = createStore(
     combineReducers(reducers),
-    compose(applyMiddleware(...middlewares)),
+    compose(
+      applyMiddleware(...middlewares),
+      autoRehydrate(),
+    ),
   );
   return store;
 };

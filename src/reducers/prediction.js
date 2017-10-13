@@ -14,7 +14,6 @@ export default handleActions({
     predictions: [],
   }),
   [IMAGE_PREDICTION.SUCCESS]: (state, action) => {
-    console.log(action.payload);
     // find the highest probability prediction
     const topN = [...action.payload]
       .sort((a, b) => {
