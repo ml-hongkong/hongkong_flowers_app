@@ -5,9 +5,6 @@ const asyncActionType = type => ({
   ERROR: `${type}_ERROR`,
 });
 
-// Dynamic API Status
-export const API_STATUS = asyncActionType('API_STATUS');
-
 export const API_START = 'API_START';
 export const API_DONE = 'API_DONE';
 
@@ -29,7 +26,3 @@ export const SIGN_OUT = 'SIGN_UP';
 
 // Application Operations
 export const IMAGE_UPLOAD = asyncActionType('IMAGE_UPLOAD');
-export const ADD_IMAGE = 'ADD_IMAGE';
-export const REMOVE_IMAGE = 'REMOVE_IMAGE';
-export const SET_AUTHORIZATION = 'SET_AUTHORIZATION';
-export const INCREASE_UPLOAD_PROGRESS = 'INCREASE_UPLOAD_PROGRESS';
