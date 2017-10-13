@@ -1,3 +1,5 @@
+// @flow
+
 import type { Action } from './types';
 import { SIGN_IN, SIGN_OUT, FIREBASE_AUTH } from '../constants';
 

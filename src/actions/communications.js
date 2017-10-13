@@ -1,3 +1,5 @@
+// @flow
+
 import type { Action, Error } from './types';
 import { API_START, API_DONE } from '../constants';
 

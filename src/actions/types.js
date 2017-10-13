@@ -1,3 +1,5 @@
+// @flow
+
 import {
   API_START,
   API_DONE,
@@ -17,10 +19,10 @@ export type Error = {
 
 export type Action =
     { type: SIGN_IN.PENDING }
-  | { type: SIGN_IN.Error, payload: Error }
+  | { type: SIGN_IN.ERROR, payload: Error }
   | { type: SIGN_IN.SUCCESS, payload: Object }
   | { type: IMAGE_UPLOAD.PENDING }
-  | { type: IMAGE_UPLOAD.Error, payload: Error }
+  | { type: IMAGE_UPLOAD.ERROR, payload: Error }
   | { type: IMAGE_UPLOAD.SUCCESS, payload: Object }
   | { type: SIGN_OUT }
   | { type: API_START }
