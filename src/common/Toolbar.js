@@ -97,13 +97,7 @@ class HeaderAndroid extends Component {
 
   props: Props;
 
-  constructor(props: Props) {
-    super(props);
-
-    (this: any).handleActionSelected = this.handleActionSelected.bind(this);
-  }
-
-  handleActionSelected(position: number) {
+  handleActionSelected = (position: number) => {
     const { rightItem, extraItems } = this.props;
 
     let items = extraItems || [];
