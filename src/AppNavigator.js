@@ -1,8 +1,11 @@
 import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { Navigator } from 'react-native-deprecated-custom-components';
 import LoginModal from './login/LoginModal';
-import FlowerPredictionView from './views/FlowerPredictionView';
+import * as authActions from './actions/auth';
+import CameraView from './views/CameraView';
+import PreviewView from './views/PreviewView';
 
 const styles = StyleSheet.create({
   navigator: {
@@ -21,24 +24,40 @@ const styles = StyleSheet.create({
   navigationButton: {
     padding: 10,
   },
+  navigationButtonText: {
+    color: 'white',
+  },
   navigationLeftButton: {
     paddingLeft: 20,
     paddingRight: 40,
   },
 });
 
-const routes = [
-  { name: 'login', title: '登入', index: 0 },
-  { name: 'flowerPrediction', title: '花種辨認', index: 1 },
+export const routes = [
+  { name: 'camera', title: '香港野花', index: 0, hideNav: false },
+  { name: 'preview', title: '香港野花', index: 1, hideNav: false },
+  // In case the auth session expired or unauthenticated api request
+  // { name: 'login', title: '登入', index: 1, hideNav: true },
 ];
 
+type Props = {
+  logout?: () => void;
+}
+
 class AppNavigator extends PureComponent {
+  static defaultProps = {
+    logout: () => {},
+  }
+
   static configureScene(route) {
     if (route.name === 'login') {
       return Navigator.SceneConfigs.FloatFromBottom;
     }
-    if (route.name === 'flowerPrediction') {
-      return Navigator.SceneConfigs.HorizontalSwipeJump;
+    if (route.name === 'camera') {
+      return Navigator.SceneConfigs.HorizontalSwipeJumpFromRight;
+    }
+    if (route.name === 'preview') {
+      return Navigator.SceneConfigs.FloatFromBottom;
     }
     return Navigator.SceneConfigs.FloatFromRight;
   }
@@ -47,25 +66,45 @@ class AppNavigator extends PureComponent {
     if (route.name === 'login') {
       return <LoginModal navigator={navigator} />;
     }
-    if (route.name === 'flowerPrediction') {
-      return <FlowerPredictionView navigator={navigator} />;
+    if (route.name === 'camera') {
+      return <CameraView navigator={navigator} />;
     }
-    return <FlowerPredictionView navigator={navigator} />;
+    if (route.name === 'preview') {
+      return <PreviewView navigator={navigator} />;
+    }
+    return <CameraView navigator={navigator} />;
   }
 
-  static rednerNavigationBar() {
+  rednerNavigationBar() {
+    const { logout } = this.props;
     return (
       <Navigator.NavigationBar
         style={styles.navigationBar}
         routeMapper={{
-          LeftButton: (route, navigator, index) => {
-            if (index === 0) return null;
+          LeftButton: (route, navigator) => {
+            if (route.hideNav) return null;
+
+            if (route.name === 'camera') {
+              return (
+                <TouchableOpacity
+                  style={[styles.navigationButton, styles.navigationLeftButton]}
+                  onPress={logout}
+                >
+                  <Text style={styles.navigationButtonText}>
+                    登出
+                  </Text>
+                </TouchableOpacity>
+              );
+            }
+
             return (
               <TouchableOpacity
                 style={[styles.navigationButton, styles.navigationLeftButton]}
                 onPress={() => navigator.pop()}
               >
-                <Text style={{ color: 'white' }}>返回</Text>
+                <Text style={styles.navigationButtonText}>
+                  返回
+                </Text>
               </TouchableOpacity>
             );
           },
@@ -80,12 +119,14 @@ class AppNavigator extends PureComponent {
     );
   }
 
+  props: Props
+
   render() {
     return (
       <Navigator
-        initialRoute={routes[1]}
+        initialRoute={routes[0]}
         initialRouteStack={routes}
-        navigationBar={AppNavigator.rednerNavigationBar()}
+        navigationBar={this.rednerNavigationBar()}
         renderScene={AppNavigator.renderScene}
         configureScene={AppNavigator.configureScene}
         style={styles.navigator}
@@ -94,4 +135,8 @@ class AppNavigator extends PureComponent {
   }
 }
 
-export default AppNavigator;
+const mapDispatchToProps = dispatch => ({
+  logout: () => dispatch(authActions.logout()),
+});
+
+export default connect(null, mapDispatchToProps)(AppNavigator);

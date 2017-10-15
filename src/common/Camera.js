@@ -1,7 +1,7 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import { ImageBackground, StyleSheet, Dimensions } from 'react-native';
+import { ImageBackground, View, StyleSheet, Dimensions } from 'react-native';
 import Camera from 'react-native-camera';
 import CameraToolBar from './CameraToolBar';
 import TakePhotoButton from './TakePhotoButton';
@@ -11,10 +11,6 @@ const { width: screenWidth } = Dimensions.get('window');
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: undefined,
-    height: undefined,
     backgroundColor: 'transparent',
   },
   preview: {
@@ -25,6 +21,16 @@ const styles = StyleSheet.create({
   currentImage: {
     width: screenWidth,
     height: null,
+  },
+  overlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'transparent',
   },
   takePhotoButton: {
     opacity: 0.8,
@@ -47,7 +53,8 @@ class CustomCamera extends PureComponent {
     const options = {};
     try {
       const image = await this.camera.capture({ metadata: options });
-      onTookPhoto(image.path);
+      const uri = image.path || image.uri;
+      onTookPhoto(uri);
     } catch (error) {
       throw error;
     }
@@ -55,10 +62,7 @@ class CustomCamera extends PureComponent {
 
   render() {
     return (
-      <ImageBackground
-        style={styles.container}
-        source={require('./img/camera_bg.png')}
-      >
+      <View style={styles.container}>
         <Camera
           ref={(camera) => {
             this.camera = camera;
@@ -66,16 +70,20 @@ class CustomCamera extends PureComponent {
           style={styles.preview}
           aspect={Camera.constants.Aspect.fill}
           captureTarget={Camera.constants.CaptureTarget.temp}
-          defaultTouchToFocus
         />
-
+        <ImageBackground
+          style={styles.overlay}
+          source={require('./img/camera_bg.png')}
+          resizeMode="cover"
+          pointerEvents={false}
+        />
         <CameraToolBar>
           <TakePhotoButton
             onPress={this.handleTakePhoto}
             style={styles.takePhotoButton}
           />
         </CameraToolBar>
-      </ImageBackground>
+      </View>
     );
   }
 }

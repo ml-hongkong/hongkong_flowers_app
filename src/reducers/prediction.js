@@ -1,34 +1,36 @@
 import { handleActions } from 'redux-actions';
-import { IMAGE_UPLOAD } from '../constants';
+import { FLOWER_PREDICTION } from '../constants';
 
 const initialState = {
   pending: false,
   error: null,
+  predictions: [],
 };
 
 export default handleActions({
-  [IMAGE_UPLOAD.PENDING]: (state, action) => ({
+  [FLOWER_PREDICTION.PENDING]: (state, action) => ({
     ...action.payload,
     pending: true,
+    predictions: [],
   }),
-  [IMAGE_UPLOAD.SUCCESS]: (state, action) => {
-    // find the highest probability prediction
-    const predicated = [...action.payload.predictions]
+  [FLOWER_PREDICTION.SUCCESS]: (state, action) => {
+    // sorting
+    const topN = [...action.payload]
       .sort((a, b) => {
-        if (a.probability > b.probability) return -1;
-        if (a.probability < b.probability) return 1;
+        if (a.prob > b.prob) return -1;
+        if (a.prob < b.prob) return 1;
         return 0;
-      })[0];
+      });
 
     return {
       error: null,
-      name: predicated.name,
-      probability: predicated.probability,
+      predictions: topN,
       pending: false,
     };
   },
-  [IMAGE_UPLOAD.ERROR]: (state, action) => ({
+  [FLOWER_PREDICTION.ERROR]: (state, action) => ({
     error: action.payload,
     pending: false,
+    predictions: [],
   }),
 }, initialState);
