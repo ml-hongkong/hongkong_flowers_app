@@ -51,8 +51,12 @@ export const resizeImage = (uri, { size, format, quality } = {
 );
 
 export const imageUriToBase64 = async (uri) => {
-  const base64Data = await FetchBlob.fs.readFile(uri, 'base64');
-  return base64Data;
+  try {
+    const base64Data = await FetchBlob.fs.readFile(uri, 'base64');
+    return base64Data;
+  } catch (error) {
+    throw error;
+  }
 };
 
 export default {
