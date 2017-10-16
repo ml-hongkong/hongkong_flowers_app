@@ -5,7 +5,7 @@ import { Animated, Platform, TouchableOpacity, View, Dimensions, ImageBackground
 import { connect } from 'react-redux';
 import Carousel, { ParallaxImage, Pagination } from 'react-native-snap-carousel';
 import * as predictAction from '../actions/prediction';
-import { Spinner, Geolocation } from '../common';
+import { Spinner, Geolocation, imageUriToBase64 } from '../common';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
 
 type Props = {
   fetchFlowerPrediction: ({
-    imageUri: string;
+    image: string;
     lat: number;
     lng: number;
   }) => void;
@@ -232,17 +232,22 @@ class PreviewView extends PureComponent {
     }
   }
 
-  onPositionUpdated = (position) => {
+  onPositionUpdated = async (position) => {
     const { imagePreview, fetchFlowerPrediction } = this.props;
 
     if (!this.state.isPredicted && imagePreview) {
       const { latitude: lat, longitude: lng } = position.coords;
-      fetchFlowerPrediction({
-        imageUri: imagePreview.uri,
-        lat,
-        lng,
-      });
-      this.setState({ isPredicted: true });
+      try {
+        const image = await imageUriToBase64(imagePreview.uri);
+        fetchFlowerPrediction({
+          image,
+          lat,
+          lng,
+        });
+        this.setState({ isPredicted: true });
+      } catch (error) {
+        throw error;
+      }
     }
   }
 

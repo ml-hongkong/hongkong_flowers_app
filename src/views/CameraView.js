@@ -34,7 +34,7 @@ class CameraView extends PureComponent {
   onTookPhoto = async (uri) => {
     const { setImagePreview, navigator } = this.props;
     const resizedImage = await resizeImage(uri);
-    setImagePreview(resizedImage.uri);
+    setImagePreview(resizedImage.originalUri);
     navigator.push(routes[1]);
   }
 
