@@ -28,6 +28,12 @@ export const SIGN_UP = asyncActionType('SIGN_UP');
 export const SIGN_OUT = 'SIGN_OUT';
 
 // Application Operations
+export const FLOWER_PREDICTION = asyncActionType('FLOWER_PREDICTION');
+export const REMOVE_IMAGE = 'REMOVE_IMAGE';
+export const SET_AUTHORIZATION = 'SET_AUTHORIZATION';
+export const INCREASE_UPLOAD_PROGRESS = 'INCREASE_UPLOAD_PROGRESS';
+export const SET_IMAGE_PREVIEW = 'SET_IMAGE_PREVIEW';
+export const REMOVE_IMAGE_PREVIEW = 'REMOVE_IMAGE_PREVIEW';
 export const IMAGE_UPLOAD = asyncActionType('IMAGE_UPLOAD');
 export const FLOWER_PREDICTION = asyncActionType('FLOWER_PREDICTION');
 export const REMOVE_IMAGE = 'REMOVE_IMAGE';
