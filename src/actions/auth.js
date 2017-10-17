@@ -1,3 +1,4 @@
+import { LoginManager } from 'react-native-fbsdk';
 import { SIGN_IN, SIGN_OUT, FIREBASE_AUTH } from '../constants';
 
 export function loginWithFacebook(accessToken) {
@@ -12,6 +13,7 @@ export function loginWithFacebook(accessToken) {
 }
 
 export function logout() {
+  LoginManager.logOut();
   return {
     type: SIGN_OUT,
   };
