@@ -1,6 +1,9 @@
+// @flow
+
+import type { Action } from './types';
 import { SIGN_IN, SIGN_OUT, FIREBASE_AUTH } from '../constants';
 
-export function loginWithFacebook(accessToken) {
+export function loginWithFacebook(accessToken): Action {
   return {
     type: FIREBASE_AUTH,
     payload: {
@@ -11,7 +14,7 @@ export function loginWithFacebook(accessToken) {
   };
 }
 
-export function logout() {
+export function logout(): Action {
   return {
     type: SIGN_OUT,
   };
