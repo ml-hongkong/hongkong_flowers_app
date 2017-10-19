@@ -24,7 +24,12 @@ export default ({ dispatch }) => (next) => {
             action.payload.accessToken,
           );
 
-          promise = firebaseApp.auth().signInWithCredential(credential);
+          promise = firebaseApp.auth().signInWithCredential(credential)
+            .then(data => ({
+              displayName: data.displayName,
+              photoURL: data.photoURL,
+              userId: firebase.auth().currentUser.uid,
+            }));
           break;
         }
         default:
