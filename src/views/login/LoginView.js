@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 import { View, Text, ImageBackground, Image, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
-import { FBLoginButton } from '../common';
+import { FBLoginButton } from '../../common';
 
 const styles = StyleSheet.create({
   container: {
@@ -48,11 +48,11 @@ class LoginView extends PureComponent {
     return (
       <ImageBackground
         style={styles.container}
-        source={require('../common/img/auth_bg.jpg')}
+        source={require('../../common/img/auth_bg.jpg')}
       >
         <View style={styles.logo}>
           <Image
-            source={require('../common/img/auth_logo.png')}
+            source={require('../../common/img/auth_logo.png')}
             style={styles.image}
           />
           <Text style={styles.logoTitle}>香港野花</Text>

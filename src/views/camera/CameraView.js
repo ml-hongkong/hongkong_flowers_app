@@ -3,9 +3,9 @@
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
-import { Camera, resizeImage } from '../common';
-import * as uiAction from '../actions/ui';
-import { routes } from '../AppNavigator';
+import { Camera, resizeImage } from '../../common';
+import * as uiAction from '../../actions/ui';
+import { routes } from '../../AppNavigator';
 
 const styles = StyleSheet.create({
   container: {

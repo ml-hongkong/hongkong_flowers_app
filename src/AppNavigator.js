@@ -4,8 +4,8 @@ import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { Navigator } from 'react-native-deprecated-custom-components';
 import LoginModal from './login/LoginModal';
 import * as authActions from './actions/auth';
-import CameraView from './views/CameraView';
-import PreviewView from './views/PreviewView';
+import CameraView from './views/camera/CameraView';
+import PreviewView from './views/preview/PreviewView';
 
 const styles = StyleSheet.create({
   navigator: {

@@ -1,23 +1,16 @@
 // @flow
 
-import React, { PureComponent } from 'react';
-import { Animated, Platform, TouchableOpacity, View, Dimensions, ImageBackground, Image, Text, StyleSheet } from 'react-native';
-import { connect } from 'react-redux';
-import Carousel, { ParallaxImage, Pagination } from 'react-native-snap-carousel';
-import * as predictAction from '../actions/prediction';
-import { Spinner, Geolocation, imageUriToBase64 } from '../common';
+import React, { Component } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Platform, Dimensions } from 'react-native';
+import SnapCarousel, { ParallaxImage, Pagination } from 'react-native-snap-carousel';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
-
 function wp(percentage) {
   const value = (percentage * screenWidth) / 100;
   return Math.round(value);
 }
 
-const previewViewSize = 300;
 const entryBorderRadius = 8;
-const previewInitialTop = (screenHeight - previewViewSize - 12) * 0.5;
-const previewInitialLeft = (screenWidth - previewViewSize - 12) * 0.5;
 const slideWidth = wp(75);
 const slideHeight = screenHeight * 0.5;
 const sliderWidth = screenWidth;
@@ -25,44 +18,6 @@ const itemHorizontalMargin = wp(2);
 const itemWidth = slideWidth + (itemHorizontalMargin * 2);
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'transparent',
-  },
-  predictionInfo: {
-    position: 'absolute',
-    width: '100%',
-    top: '20%',
-    alignItems: 'center',
-  },
-  name: {
-    fontSize: 46,
-    color: '#fff',
-  },
-  predictions: {
-    color: '#fff',
-    fontSize: 18,
-  },
-  preview: {
-    position: 'absolute',
-    left: previewInitialLeft,
-    borderWidth: 6,
-    borderColor: 'white',
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: '#002A87',
-    backgroundColor: 'white',
-    shadowOffset: { width: 3, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 6,
-    borderRadius: 3,
-  },
-  previewImage: {
-    width: 300,
-    height: 300,
-  },
   paginationContainer: {
     paddingVertical: 8,
   },
@@ -148,19 +103,6 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {
-  fetchFlowerPrediction: ({
-    image: string;
-    lat: number;
-    lng: number;
-  }) => void;
-  imagePreview?: {
-    uri: string;
-  };
-  waitingForPrediction: boolean;
-  predictions?: [];
-}
-
 type Item = {
   item: {
     prop: number,
@@ -171,6 +113,12 @@ type Item = {
     title: string
   }
 }
+
+type Props = {
+  sliderActiveSlide?: number,
+  predictions: Array<Item>,
+}
+
 const CarouselItem = ({ item }: Item, parallaxProps: Object) => (
   <TouchableOpacity
     activeOpacity={1}
@@ -209,57 +157,33 @@ const CarouselItem = ({ item }: Item, parallaxProps: Object) => (
   </TouchableOpacity>
 );
 
-class PreviewView extends PureComponent {
+class Carousel extends Component {
   static defaultProps = {
-    predictions: [],
-    errorMessage: null,
-    imagePreview: null,
-  }
-
-  state = {
     sliderActiveSlide: 0,
-    preivewTopAnim: new Animated.Value(previewInitialTop),
-    isPredicted: false,
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.predictions.length !== nextProps.predictions.length) {
-      Animated.timing(this.state.preivewTopAnim, {
-        toValue: previewInitialTop - 100,
-        duration: 1000,
-        // useNativeDriver: true,
-      }).start();
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      sliderActiveSlide: props.sliderActiveSlide,
+    };
+  }
+
+  componentWillReceiveProps(nextProps: Props) {
+    if (this.props.sliderActiveSlide !== nextProps.sliderActiveSlide) {
+      this.goToItem(nextProps.sliderActiveSlide);
     }
   }
 
-  onPositionUpdated = async (position) => {
-    const { imagePreview, fetchFlowerPrediction } = this.props;
+  props: Props
 
-    if (!this.state.isPredicted && imagePreview) {
-      const { latitude: lat, longitude: lng } = position.coords;
-      try {
-        const image = await imageUriToBase64(imagePreview.uri);
-        fetchFlowerPrediction({
-          image,
-          lat,
-          lng,
-        });
-        this.setState({ isPredicted: true });
-      } catch (error) {
-        throw error;
-      }
-    }
+  goToItem = (sliderActiveSlide) => {
+    this.setState({ sliderActiveSlide });
   }
 
-  props: Props;
-
-  renderCarousel() {
+  render() {
     const { predictions } = this.props;
-    const { sliderActiveSlide } = this.state;
-
-    if (!predictions.length) {
-      return null;
-    }
 
     return (
       <View style={styles.slideOuterContainer}>
@@ -267,8 +191,10 @@ class PreviewView extends PureComponent {
           <Text style={styles.slideHeader}>
             找到幾種最相似:
           </Text>
-          <Carousel
-            ref={(c) => { this.carousel = c; }}
+          <SnapCarousel
+            ref={(carousel) => {
+              this.carousel = carousel;
+            }}
             data={predictions}
             hasParallaxImages
             inactiveSlideScale={0.94}
@@ -277,12 +203,12 @@ class PreviewView extends PureComponent {
             firstItem={0}
             sliderWidth={sliderWidth}
             itemWidth={itemWidth}
-            onSnapToItem={index => this.setState({ sliderActiveSlide: index })}
+            onSnapToItem={this.goToItem}
             renderItem={CarouselItem}
           />
           <Pagination
             dotsLength={predictions.length}
-            activeDotIndex={sliderActiveSlide}
+            activeDotIndex={this.state.sliderActiveSlide}
             containerStyle={styles.paginationContainer}
             dotColor={'rgba(255, 255, 255, 0.92)'}
             dotStyle={styles.paginationDot}
@@ -296,51 +222,6 @@ class PreviewView extends PureComponent {
       </View>
     );
   }
-
-  render() {
-    const { waitingForPrediction, imagePreview } = this.props;
-    const { preivewTopAnim } = this.state;
-
-    if (!imagePreview) {
-      return null;
-    }
-
-    return (
-      <ImageBackground
-        style={styles.container}
-        source={require('../common/img/auth_bg.jpg')}
-      >
-        <Geolocation
-          onPositionUpdated={this.onPositionUpdated}
-        />
-
-        <Animated.View style={
-          StyleSheet.flatten([styles.preview, { top: preivewTopAnim }])}
-        >
-          <Image
-            style={styles.previewImage}
-            source={{ uri: imagePreview.uri }}
-          />
-        </Animated.View>
-
-        {this.renderCarousel()}
-
-        <Spinner show={waitingForPrediction} />
-      </ImageBackground>
-    );
-  }
 }
 
-const mapStateToProps = state => ({
-  waitingForPrediction: state.prediction.pending,
-  predictions: state.prediction.predictions,
-  imagePreview: state.ui.imagePreview,
-});
-
-const mapDispatchToProps = dispatch => ({
-  fetchFlowerPrediction({ ...args }) {
-    dispatch(predictAction.fetchFlowerPrediction(args));
-  },
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(PreviewView);
+export default Carousel;
