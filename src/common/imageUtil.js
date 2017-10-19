@@ -15,7 +15,7 @@ export const cropImage = (uri, offset, size) => (
 );
 
 export const resizeImage = (uri, { size, format, quality } = {
-  size: parseInt(Config.IMAGE_SIZE, 10) || 960,
+  size: parseInt(Config.IMAGE_SIZE, 10) || 1440,
   format: 'JPEG',
   quality: 75,
 }) => (
