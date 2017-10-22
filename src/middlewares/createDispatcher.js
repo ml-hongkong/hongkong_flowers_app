@@ -1,11 +1,11 @@
 // @flow
 
-import { apiSuccess, apiError, apiStart, apiDone } from '../actions';
+import { apiSuccess, apiPending, apiError, apiStart, apiDone } from '../actions';
 
 export default (dispatch: Function, action: Object) => ({
   success(data?: any): any {
     dispatch(apiDone());
-    dispatch(apiSuccess({ type: action.payload.next.SUCCESS, data }));
+    dispatch(apiSuccess(action.payload.next.SUCCESS, data));
     return data;
   },
 
@@ -17,12 +17,12 @@ export default (dispatch: Function, action: Object) => ({
 
   start(): void {
     dispatch(apiStart());
-    dispatch({ type: action.payload.next.PENDING });
+    dispatch(apiPending(action.payload.next.PENDING));
   },
 
   error(error?: Object): Object {
     dispatch(apiDone(error));
-    dispatch(apiError({ type: action.payload.next.ERROR, error }));
+    dispatch(apiError(action.payload.next.ERROR, error));
     return error;
   },
 });

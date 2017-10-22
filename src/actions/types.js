@@ -10,6 +10,7 @@ import {
   SIGN_IN,
   SIGN_OUT,
   IMAGE_UPLOAD,
+  UPDATE_IMAGE_PREVIEW,
 } from '../constants';
 
 export type Error = {
@@ -31,3 +32,4 @@ export type Action =
   | { type: API_POST, payload: Object }
   | { type: API_UPLOAD, payload: Object }
   | { type: FIREBASE_AUTH, payload: { provider: 'facebook', accessToken: string, next: Object } }
+  | { type: UPDATE_IMAGE_PREVIEW, payload: { uri?: string } }

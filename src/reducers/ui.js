@@ -1,18 +1,15 @@
 
 import { handleActions } from 'redux-actions';
-import { SET_IMAGE_PREVIEW, REMOVE_IMAGE_PREVIEW } from '../constants';
+import { UPDATE_IMAGE_PREVIEW } from '../constants';
 
 const initialState = {
   imagePreview: null,
 };
 
 export default handleActions({
-  [SET_IMAGE_PREVIEW]: (state, action) => ({
+  [UPDATE_IMAGE_PREVIEW]: (state, action) => ({
     imagePreview: {
-      uri: action.payload,
+      uri: action.payload.uri,
     },
-  }),
-  [REMOVE_IMAGE_PREVIEW]: () => ({
-    imagePreview: null,
   }),
 }, initialState);
