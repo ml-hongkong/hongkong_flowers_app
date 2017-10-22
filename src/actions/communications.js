@@ -23,7 +23,7 @@ export function apiSuccess(type: string, data: any): Action {
   };
 }
 
-export function apiPending(type: string) {
+export function apiPending(type: string): Action {
   return {
     type,
   };

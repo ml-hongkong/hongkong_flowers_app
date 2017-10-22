@@ -11,6 +11,7 @@ import {
   SIGN_OUT,
   IMAGE_UPLOAD,
   UPDATE_IMAGE_PREVIEW,
+  FLOWER_PREDICTION,
 } from '../constants';
 
 export type Error = {
@@ -25,6 +26,9 @@ export type Action =
   | { type: IMAGE_UPLOAD.PENDING }
   | { type: IMAGE_UPLOAD.ERROR, payload: Error }
   | { type: IMAGE_UPLOAD.SUCCESS, payload: Object }
+  | { type: FLOWER_PREDICTION.PENDING }
+  | { type: FLOWER_PREDICTION.ERROR, payload: Error }
+  | { type: FLOWER_PREDICTION.SUCCESS, payload: Object }
   | { type: SIGN_OUT }
   | { type: API_START }
   | { type: API_DONE, payload?: Error }
