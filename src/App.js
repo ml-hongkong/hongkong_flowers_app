@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { get } from 'lodash';
 import { Snackbar } from './common';
 import AppNavigator from './AppNavigator';
-import LoginView from './views/LoginView';
+import LoginView from './views/login/LoginView';
 
 const styles = StyleSheet.create({
   container: {

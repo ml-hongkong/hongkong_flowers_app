@@ -6,6 +6,7 @@ const initialState = {
   photoURL: null,
   loggedIn: false,
   signing: false,
+  userId: null,
 };
 
 export default handleActions({
@@ -14,6 +15,7 @@ export default handleActions({
     photoURL: action.payload.photoURL,
     loggedIn: true,
     signing: false,
+    userId: action.payload.userId,
   }),
   [SIGN_IN.PENDING]: () => ({
     loggedIn: false,

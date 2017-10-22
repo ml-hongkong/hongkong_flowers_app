@@ -1,32 +1,22 @@
 // @flow
 
-import { API_UPLOAD, IMAGE_UPLOAD } from '../constants';
+import store from '../store';
+import { API_UPLOAD, FLOWER_PREDICTION } from '../constants';
 
 // eslint-disable-next-line
-export function fetchFlowerPrediction({
-  imageURL,
-  lat,
-  lng,
-  filename = `${Date.now()}.jpeg`,
-} = {}) {
-  const formData = new FormData();
-  formData.append('image', {
-    uri: imageURL,
-    type: 'image/jpeg',
-    filename,
-  });
-  formData.append('lat', lat);
-  formData.append('lng', lng);
-
+export function fetchFlowerPrediction({ image, lat, lng }) {
+  const { userId: uid } = store.getStore().getState().auth;
   return {
     type: API_UPLOAD,
     payload: {
-      endpoint: '/predictions',
-      data: formData,
-      next: IMAGE_UPLOAD,
-      headers: {
-        'Content-Type': 'multipart/form-data',
+      endpoint: '/predict',
+      data: {
+        image,
+        uid,
+        lat,
+        lng,
       },
+      next: FLOWER_PREDICTION,
     },
   };
 }
