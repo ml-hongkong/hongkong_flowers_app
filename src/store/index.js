@@ -3,12 +3,13 @@ import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
 // eslint-disable-next-line
 import { createLogger } from 'redux-logger';
 import { autoRehydrate, persistStore } from 'redux-persist';
-import { apiMiddleware, firebaseMiddleware } from '../middlewares';
+import api from './api';
+import firebase from './firebase';
 import reducers from '../reducers';
 
 const middlewares = [
-  apiMiddleware,
-  firebaseMiddleware,
+  api,
+  firebase,
 ];
 
 if (__DEV__ === true) {
