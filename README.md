@@ -27,6 +27,11 @@ react-native link
 
 2. [Download Facebook SDK to ~/Document/FacebookSDK](https://developers.facebook.com/docs/ios/getting-started/)
 
+
+### Enviroment variables
+* Copy `.env-example` file and save as `.env`, please contact iam@josephcheng.me for those variables.
+
+
 ### RUN iOS
 ```
 react-native run-ios
