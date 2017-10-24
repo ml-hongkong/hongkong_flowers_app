@@ -46,15 +46,17 @@ const styles = StyleSheet.create({
 
 type Props = {
   fetchFlowerPrediction: ({
-    image: string;
-    lat: number;
-    lng: number;
+    image: string,
+    lat: number,
+    lng: number,
+    userId: string,
   }) => void;
   imagePreview?: {
-    uri: string;
+    uri: string,
   };
-  waitingForPrediction: boolean;
-  predictions?: [];
+  userId: string,
+  waitingForPrediction: boolean,
+  predictions?: [],
 }
 
 class PreviewView extends PureComponent {
@@ -81,7 +83,7 @@ class PreviewView extends PureComponent {
   }
 
   onPositionUpdated = async (position) => {
-    const { imagePreview, fetchFlowerPrediction } = this.props;
+    const { userId, imagePreview, fetchFlowerPrediction } = this.props;
 
     if (!this.state.isPredicted && imagePreview) {
       const { latitude: lat, longitude: lng } = position.coords;
@@ -91,6 +93,7 @@ class PreviewView extends PureComponent {
           image,
           lat,
           lng,
+          userId,
         });
         this.setState({ isPredicted: true });
       } catch (error) {
@@ -143,6 +146,7 @@ const mapStateToProps = state => ({
   waitingForPrediction: state.prediction.pending,
   predictions: state.prediction.predictions,
   imagePreview: state.ui.imagePreview,
+  userId: state.auth.userId,
 });
 
 const mapDispatchToProps = dispatch => ({

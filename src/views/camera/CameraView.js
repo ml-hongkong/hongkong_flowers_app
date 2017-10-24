@@ -14,27 +14,25 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  setImagePreview: (uri: string) => void;
+  updateImagePreview: (uri?: string) => void;
   navigator: Object;
-  removeImagePreview: () => void;
 }
 
 class CameraView extends PureComponent {
   static defaultProps = {
-    setImagePreview: () => {},
-    removeImagePreview: () => {},
+    updateImagePreview: () => {},
   }
 
   componentDidMount() {
     // remove preview image
-    const { removeImagePreview } = this.props;
-    removeImagePreview();
+    const { updateImagePreview } = this.props;
+    updateImagePreview();
   }
 
   onTookPhoto = async (uri) => {
-    const { setImagePreview, navigator } = this.props;
+    const { updateImagePreview, navigator } = this.props;
     const resizedImage = await resizeImage(uri);
-    setImagePreview(resizedImage.originalUri);
+    updateImagePreview(resizedImage.originalUri);
     navigator.push(routes[1]);
   }
 
@@ -50,11 +48,8 @@ class CameraView extends PureComponent {
 }
 
 const mapDispatchToProps = dispatch => ({
-  setImagePreview(uri) {
-    dispatch(uiAction.setImagePreview(uri));
-  },
-  removeImagePreview() {
-    dispatch(uiAction.removeImagePreview());
+  updateImagePreview(uri?: string) {
+    dispatch(uiAction.updateImagePreview(uri));
   },
 });
 

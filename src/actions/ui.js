@@ -1,16 +1,14 @@
 // @flow
 
-import { SET_IMAGE_PREVIEW, REMOVE_IMAGE_PREVIEW } from '../constants';
+import { UPDATE_IMAGE_PREVIEW } from '../constants';
+import type { Action } from './types';
 
-export function setImagePreview(imageUri) {
+// eslint-disable-next-line
+export function updateImagePreview(uri?: string): Action {
   return {
-    type: SET_IMAGE_PREVIEW,
-    payload: imageUri,
-  };
-}
-
-export function removeImagePreview() {
-  return {
-    type: REMOVE_IMAGE_PREVIEW,
+    type: UPDATE_IMAGE_PREVIEW,
+    payload: {
+      uri,
+    },
   };
 }

@@ -1,21 +1,7 @@
 // @flow
 
-import type { Action, Error } from './types';
+import type { Action } from './types';
 import { API_START, API_DONE } from '../constants';
-
-type ApiDone = {
-  error?: Error,
-}
-
-type ApiSuccess = {
-  type: string,
-  payload?: any,
-}
-
-type ApiError = {
-  type: string,
-  payload: Error,
-}
 
 export function apiStart(): Action {
   return {
@@ -23,21 +9,27 @@ export function apiStart(): Action {
   };
 }
 
-export function apiDone(error: ApiDone): Action {
+export function apiDone(error?: Object): Action {
   return {
     type: API_DONE,
     payload: error,
   };
 }
 
-export function apiSuccess({ type, data }: ApiSuccess): Action {
+export function apiSuccess(type: string, data: any): Action {
   return {
     type,
     payload: data,
   };
 }
 
-export function apiError({ type, error }: ApiError): Action {
+export function apiPending(type: string): Action {
+  return {
+    type,
+  };
+}
+
+export function apiError(type: string, error?: Object): Action {
   return {
     type,
     payload: error,
