@@ -3,6 +3,8 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Platform, Dimensions } from 'react-native';
 import SnapCarousel, { ParallaxImage, Pagination } from 'react-native-snap-carousel';
+import Browser from 'react-native-browser';
+import Config from 'react-native-config';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 function wp(percentage) {
@@ -12,7 +14,7 @@ function wp(percentage) {
 
 const entryBorderRadius = 8;
 const slideWidth = wp(75);
-const slideHeight = screenHeight * 0.5;
+const slideHeight = screenHeight * 0.6;
 const sliderWidth = screenWidth;
 const itemHorizontalMargin = wp(2);
 const itemWidth = slideWidth + (itemHorizontalMargin * 2);
@@ -123,7 +125,10 @@ const CarouselItem = ({ item }: Item, parallaxProps: Object) => (
   <TouchableOpacity
     activeOpacity={1}
     style={styles.slideInnerContainer}
-    onPress={() => { console.log(`You've clicked '${item.title}'`); }}
+    onPress={() => {
+      const url = Config.HKCWW_PAGE_URL + item.label;
+      Browser.open(url);
+    }}
   >
     <View style={styles.slideItem}>
       <ParallaxImage

@@ -14,13 +14,15 @@ export default handleActions({
     predictions: [],
   }),
   [FLOWER_PREDICTION.SUCCESS]: (state, action) => {
-    // sorting
-    const topN = [...action.payload]
+    const topN = action.payload.top_n
+      // sorting
       .sort((a, b) => {
         if (a.prob > b.prob) return -1;
         if (a.prob < b.prob) return 1;
         return 0;
-      });
+      })
+      // lmit to 3
+      .slice(0, 3);
 
     return {
       error: null,

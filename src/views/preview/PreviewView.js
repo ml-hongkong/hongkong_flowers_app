@@ -108,11 +108,11 @@ class PreviewView extends PureComponent {
     const { waitingForPrediction, imagePreview, predictions } = this.props;
     const { preivewTopAnim } = this.state;
 
-    if (!imagePreview) {
+    if (!imagePreview.uri) {
       return null;
     }
 
-    const carousel = predictions ? (
+    const carousel = predictions.length ? (
       <Carousel predictions={predictions} />
     ) : null;
 
