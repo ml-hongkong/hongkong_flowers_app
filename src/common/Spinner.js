@@ -1,7 +1,7 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import { View, Animated, StyleSheet, Dimensions } from 'react-native';
+import { Animated, StyleSheet, Dimensions } from 'react-native';
 import RNSpinner from 'react-native-spinkit';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
@@ -19,6 +19,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: screenWidth,
     height: screenHeight,
+    backgroundColor: 'rgba(0,0,0,0.5)',
     zIndex: 1000,
   },
   spinner: {
@@ -79,18 +80,16 @@ export default class Spinner extends PureComponent {
 
   render() {
     return (
-      <View
+      <Animated.View
         pointerEvents="none"
-        style={styles.container}
+        style={StyleSheet.flatten([styles.container, { opacity: this.state.opacity }])}
       >
-        <Animated.View style={{ opacity: this.state.opacity }}>
-          <RNSpinner
-            style={styles.spinner}
-            size={100}
-            type="Arc"
-          />
-        </Animated.View>
-      </View>
+        <RNSpinner
+          style={styles.spinner}
+          size={100}
+          type="Arc"
+        />
+      </Animated.View>
     );
   }
 }

@@ -4,6 +4,7 @@ import { FLOWER_PREDICTION } from '../constants';
 const initialState = {
   pending: false,
   error: null,
+  entityId: null,
   predictions: [],
 };
 
@@ -23,15 +24,16 @@ export default handleActions({
       })
       // lmit to 3
       .slice(0, 3);
-
     return {
       error: null,
+      entityId: action.payload.entityId,
       predictions: topN,
       pending: false,
     };
   },
   [FLOWER_PREDICTION.ERROR]: (state, action) => ({
     error: action.payload,
+    entityId: null,
     pending: false,
     predictions: [],
   }),
