@@ -200,7 +200,7 @@ const mapDispatchToProps = dispatch => ({
   },
   cleanReport() {
     dispatch(reportAction.cleanReport());
-  }
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PreviewView);
