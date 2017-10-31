@@ -51,8 +51,11 @@ export default ({ dispatch }) => (next) => {
 
       // select a http method
       let method;
+
       switch (action.type) {
         case API_POST:
+          method = 'POST';
+          break;
         case API_UPLOAD:
           method = 'POST';
           break;
@@ -62,7 +65,6 @@ export default ({ dispatch }) => (next) => {
           break;
       }
 
-      // api chaining
       api({ ...action.payload, method })
         .then(dispatcher.success)
         .then(dispatcher.notify)

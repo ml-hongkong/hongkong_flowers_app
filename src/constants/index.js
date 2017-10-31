@@ -31,3 +31,5 @@ export const SIGN_OUT = 'SIGN_OUT';
 export const FLOWER_PREDICTION = asyncActionType('FLOWER_PREDICTION');
 export const UPDATE_IMAGE_PREVIEW = 'UPDATE_IMAGE_PREVIEW';
 export const IMAGE_UPLOAD = asyncActionType('IMAGE_UPLOAD');
+export const FLOWER_REPORT = asyncActionType('FLOWER_REPORT');
+export const CLEAN_FLOWER_REPORT = 'CLEAN_FLOWER_REPORT';

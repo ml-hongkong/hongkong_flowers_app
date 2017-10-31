@@ -1,10 +1,11 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import { Animated, Dimensions, ImageBackground, Image, StyleSheet } from 'react-native';
+import { Alert, Animated, Dimensions, ImageBackground, Image, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import Carousel from './Carousel';
 import * as predictAction from '../../actions/prediction';
+import * as reportAction from '../../actions/report';
 import { Spinner, Geolocation, imageUriToBase64 } from '../../common';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
@@ -51,17 +52,24 @@ type Props = {
     lng: number,
     userId: string,
   }) => void;
+  reportEntity: (entityId: string) => void;
+  cleanReport: () => void;
   imagePreview?: {
     uri: string,
   };
-  userId: string,
-  waitingForPrediction: boolean,
-  predictions?: [],
+  entityId?: string;
+  userId: string;
+  waitingForPrediction: boolean;
+  waitingForReport: boolean;
+  isReportSuccess: boolean;
+  predictions?: [];
+  navigator: Object;
 }
 
 class PreviewView extends PureComponent {
   static defaultProps = {
     predictions: [],
+    entityId: null,
     errorMessage: null,
     imagePreview: null,
   }
@@ -70,19 +78,40 @@ class PreviewView extends PureComponent {
     sliderActiveSlide: 0,
     preivewTopAnim: new Animated.Value(previewInitialTop),
     isPredicted: false,
+    isPreviewTopUpdated: false,
+  }
+
+  componentWillMount() {
+    // clean report state
+    this.props.cleanReport();
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.predictions.length !== nextProps.predictions.length) {
+    if (!this.state.isPreviewTopUpdated && nextProps.predictions.length > 0
+      && !nextProps.waitingForPrediction) {
       Animated.timing(this.state.preivewTopAnim, {
         toValue: previewInitialTop - 100,
         duration: 1000,
         // useNativeDriver: true,
       }).start();
+      this.setState({ isPreviewTopUpdated: true });
+    } else {
+      // reset preview picture top
+      this.setState({ preivewTopAnim: new Animated.Value(previewInitialTop) });
+    }
+
+    // if use reported the flower and got response
+    if (this.state.isPredicted && !nextProps.waitingForReport && nextProps.isReportSuccess) {
+      Alert.alert('我們將會處理', '感謝你的參與，令我們的資料庫更完善!', [{
+        text: 'OK',
+        onPress: () => {
+          this.props.navigator.pop();
+        },
+      }]);
     }
   }
 
-  onPositionUpdated = async (position) => {
+  handlePositionUpdated = async (position) => {
     const { userId, imagePreview, fetchFlowerPrediction } = this.props;
 
     if (!this.state.isPredicted && imagePreview) {
@@ -102,18 +131,28 @@ class PreviewView extends PureComponent {
     }
   }
 
+  handleReport = () => {
+    const { entityId, reportEntity } = this.props;
+
+    try {
+      reportEntity(entityId);
+    } catch (error) {
+      throw error;
+    }
+  }
+
   props: Props;
 
   render() {
-    const { waitingForPrediction, imagePreview, predictions } = this.props;
+    const { waitingForPrediction, waitingForReport, imagePreview, predictions } = this.props;
     const { preivewTopAnim } = this.state;
 
-    if (!imagePreview) {
+    if (!imagePreview.uri) {
       return null;
     }
 
-    const carousel = predictions ? (
-      <Carousel predictions={predictions} />
+    const carousel = predictions.length ? (
+      <Carousel predictions={predictions} onReport={this.handleReport} />
     ) : null;
 
     return (
@@ -122,7 +161,7 @@ class PreviewView extends PureComponent {
         source={require('../../common/img/auth_bg.jpg')}
       >
         <Geolocation
-          onPositionUpdated={this.onPositionUpdated}
+          onPositionUpdated={this.handlePositionUpdated}
         />
 
         <Animated.View style={
@@ -136,7 +175,7 @@ class PreviewView extends PureComponent {
 
         {carousel}
 
-        <Spinner show={waitingForPrediction} />
+        <Spinner show={waitingForPrediction || waitingForReport} />
       </ImageBackground>
     );
   }
@@ -144,7 +183,10 @@ class PreviewView extends PureComponent {
 
 const mapStateToProps = state => ({
   waitingForPrediction: state.prediction.pending,
+  waitingForReport: state.report.pending,
+  isReportSuccess: state.report.success,
   predictions: state.prediction.predictions,
+  entityId: state.prediction.entityId,
   imagePreview: state.ui.imagePreview,
   userId: state.auth.userId,
 });
@@ -152,6 +194,12 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   fetchFlowerPrediction({ ...args }) {
     dispatch(predictAction.fetchFlowerPrediction(args));
+  },
+  reportEntity(entityId) {
+    dispatch(reportAction.reportEntity(entityId));
+  },
+  cleanReport() {
+    dispatch(reportAction.cleanReport());
   },
 });
 
