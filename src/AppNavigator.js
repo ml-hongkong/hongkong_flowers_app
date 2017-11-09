@@ -6,6 +6,7 @@ import LoginModal from './login/LoginModal';
 import * as authActions from './actions/auth';
 import CameraView from './views/camera/CameraView';
 import PreviewView from './views/preview/PreviewView';
+import LandingView from './views/landing/LandingView';
 
 const styles = StyleSheet.create({
   navigator: {
@@ -34,8 +35,9 @@ const styles = StyleSheet.create({
 });
 
 export const routes = [
-  { name: 'camera', title: '香港野花', index: 0, hideNav: false },
-  { name: 'preview', title: '香港野花', index: 1, hideNav: false },
+  { name: 'landing', title: '香港野花', index: 0, hideNav: false },
+  { name: 'camera', title: '香港野花', index: 1, hideNav: false },
+  { name: 'preview', title: '香港野花', index: 2, hideNav: false },
   // In case the auth session expired or unauthenticated api request
   // { name: 'login', title: '登入', index: 1, hideNav: true },
 ];
@@ -72,7 +74,10 @@ class AppNavigator extends PureComponent {
     if (route.name === 'preview') {
       return <PreviewView navigator={navigator} />;
     }
-    return <CameraView navigator={navigator} />;
+    if (route.name === 'landing') {
+      return <LandingView navigator={navigator} />;
+    }
+    return <LandingView navigator={navigator} />;
   }
 
   rednerNavigationBar() {
@@ -84,7 +89,7 @@ class AppNavigator extends PureComponent {
           LeftButton: (route, navigator) => {
             if (route.hideNav) return null;
 
-            if (route.name === 'camera') {
+            if (route.name === 'landing') {
               return (
                 <TouchableOpacity
                   style={[styles.navigationButton, styles.navigationLeftButton]}

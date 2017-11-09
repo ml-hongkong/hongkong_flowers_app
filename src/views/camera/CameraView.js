@@ -33,7 +33,7 @@ class CameraView extends PureComponent {
     const { updateImagePreview, navigator } = this.props;
     const resizedImage = await resizeImage(uri);
     updateImagePreview(resizedImage.originalUri);
-    navigator.push(routes[1]);
+    navigator.push(routes[2]);
   }
 
   props: Props
