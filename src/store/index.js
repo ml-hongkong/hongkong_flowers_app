@@ -68,9 +68,7 @@ export default new Proxy(new AppStore(), {
       return undefined;
     } else if (target[key]) {
       return target[key];
-    } else if (target.store[key]) {
-      return target.store[key];
     }
-    return undefined;
+    return target.store[key];
   },
 });
