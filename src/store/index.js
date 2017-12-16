@@ -1,3 +1,6 @@
+// @flow
+/* eslint no-underscore-dangle: 0 */ // --> OFF
+
 import { AsyncStorage } from 'react-native';
 import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
 // eslint-disable-next-line
@@ -7,27 +10,40 @@ import api from './api';
 import firebase from './firebase';
 import reducers from '../reducers';
 
-const middlewares = [
-  api,
-  firebase,
-];
+// wrapper for redux store
+export class AppStore {
+  constructor() {
+    this.store = null;
+  }
 
-if (__DEV__ === true) {
-  middlewares.push(createLogger({
-    duration: true,
-    timestamp: true,
-    diff: true,
-  }));
-}
+  get store(): Object {
+    if (!this.__store__) {
+      throw Error('store not yet created, must call createStore() before accessing store');
+    }
+    return this.__store__;
+  }
 
-const appStore = {
-  setStore(store) {
-    appStore.store = store;
-  },
-  getStore() {
-    return appStore.store;
-  },
-  createStore(onComplete: ?() => void) {
+  set store(store: Object): void {
+    this.__store__ = store;
+  }
+
+  get loaded(): boolean {
+    return !!this.__store__;
+  }
+
+  createStore(onComplete: ?() => void): Object {
+    const middlewares = [
+      api,
+      firebase,
+    ];
+
+    if (__DEV__) {
+      middlewares.push(createLogger({
+        duration: true,
+        timestamp: true,
+        diff: true,
+      }));
+    }
     const store = createStore(
       combineReducers(reducers),
       compose(
@@ -37,9 +53,24 @@ const appStore = {
     );
 
     persistStore(store, { storage: AsyncStorage }, onComplete);
-    appStore.setStore(store);
+    this.store = store;
     return store;
-  },
-};
+  }
+}
 
-export default appStore;
+// a proxy for appStore api to provide some magic.
+// caller can access redux store's properties directly.
+// for example: appStore.getState()
+export default new Proxy(new AppStore(), {
+  get(target, key) {
+    const disallowedProps = ['store', '__store__'];
+    if (disallowedProps.includes(key)) {
+      return undefined;
+    } else if (target[key]) {
+      return target[key];
+    } else if (target.store[key]) {
+      return target.store[key];
+    }
+    return undefined;
+  },
+});
